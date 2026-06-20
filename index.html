@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="html-tag">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMA AL-LUALUA AL-THAHBIA</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ===== كود الـ CSS الخاص بك بالكامل وبدون أي تعديل ===== */
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        body {
+            background: #0f0f0f;
+            color: white;
+            scroll-behavior: smooth;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px);
+            padding: 12px 30px;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-circle {
+            width: 40px;
+            height: 40px;
+            background: gold;
+            color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        .brand-sub {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        /* NAV LINKS */
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: gold;
+        }
+
+        /* ===== DROPDOWN MENU ===== */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: #1b1b1b;
+            min-width: 220px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            display: none;
+            overflow: hidden;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+
+        html[dir="rtl"] .dropdown-content {
+            left: 0;
+            right: auto;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 12px 15px;
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid #333;
+            transition: 0.3s;
+            font-size: 14px;
+            text-align: start;
+        }
+
+        .dropdown-content a:hover {
+            background: gold;
+            color: black;
+        }
+
+        .dropdown:hover .dropdown-content,
+        .dropdown.active .dropdown-content {
+            display: block;
+        }
+
+        /* LANG */
+        .lang-switcher a {
+            margin: 0 5px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .active-lang {
+            color: gold !important;
+            font-weight: bold;
+        }
+
+        /* HERO */
+        .hero-section {
+            height: 100vh;
+            background: url("https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=1200") center/cover;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+        }
+
+        .hero-content {
+            position: relative;
+            max-width: 700px;
+        }
+
+        .hero-content h1 {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .hero-content p {
+            color: #ddd;
+        }
+
+        /* BUTTON */
+        .btn-primary, .btn-order {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 18px;
+            background: gold;
+            color: black;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn-primary:hover,
+        .btn-order:hover {
+            transform: scale(1.05);
+        }
+
+        /* PRODUCTS */
+        .container {
+            padding: 80px 40px;
+        }
+
+        .decor-section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 26px;
+            margin-bottom: 20px;
+            color: gold;
+            text-align: start;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        /* التحكم في إخفاء المنتجات الزائدة بشكل افتراضي */
+        .products-grid:not(.expanded) .product-card:nth-child(n+5) {
+            display: none;
+        }
+
+        .product-card {
+            background: #1b1b1b;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: start;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .image-box img.main-product-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .image-box img.main-product-img:hover {
+            transform: scale(1.02);
+        }
+
+        /* THUMBNAILS */
+        .thumbnails-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+            padding: 8px 10px;
+            background: #151515;
+            border-bottom: 1px solid #252525;
+        }
+
+        .thumb-img {
+            width: 100%;
+            height: 42px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: 0.2s;
+        }
+
+        .thumb-img:hover {
+            border-color: gold;
+        }
+
+        .active-thumb {
+            border-color: gold;
+            box-shadow: 0 0 5px rgba(255, 215, 0, 0.4);
+        }
+
+        /* CARD TEXT */
+        .card-details {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-details h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .card-details p {
+            font-size: 13px;
+            color: #aaa;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .product-note {
+            display: inline-block;
+            font-size: 12px;
+            color: gold;
+            background: rgba(255, 215, 0, 0.08);
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-top: auto;
+            margin-bottom: 10px;
+            width: fit-content;
+        }
+
+        /* SHOW MORE */
+        .show-more-box {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .btn-show-more {
+            background: transparent;
+            color: gold;
+            border: 2px solid gold;
+            padding: 10px 25px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-show-more:hover {
+            background: gold;
+            color: black;
+            transform: scale(1.05);
+        }
+
+        /* CONTACT */
+        .contact-section {
+            padding: 60px 40px;
+            background: #111;
+            text-align: center;
+        }
+
+        .contact-title {
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: gold;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .contact-card {
+            background: #1b1b1b;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .contact-card i {
+            font-size: 28px;
+            color: gold;
+            margin-bottom: 10px;
+        }
+
+        /* FOOTER */
+        .main-footer {
+            text-align: center;
+            padding: 20px;
+            background: black;
+            color: #aaa;
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.8); }
+            to { transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                position: sticky;
+                padding: 10px 15px;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .logo {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .brand-name {
+                font-size: 16px;
+            }
+
+            .nav-links {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 12px;
+                width: 100%;
+                padding: 0;
+            }
+
+            .nav-links li {
+                font-size: 13px;
+            }
+
+            .dropdown-content {
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                right: auto;
+                transform: translateX(-50%);
+                min-width: 190px;
+                background: #151515;
+            }
+
+            .hero-section {
+                height: auto;
+                min-height: 85vh;
+                padding: 100px 20px 50px 20px;
+            }
+
+            .hero-content h1 {
+                font-size: 24px;
+                line-height: 1.4;
+            }
+
+            .hero-content p {
+                font-size: 13px;
+                margin-top: 8px;
+            }
+
+            .container {
+                padding: 30px 15px;
+            }
+
+            .section-title {
+                font-size: 19px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-circle">S</div>
+                <div>
+                    <div class="brand-name" id="nav-brand">SAMA AL-LUALUA</div>
+                    <div class="brand-sub">GOLDEN PEARL</div>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" id="link-home"></a></li>
+                <li class="dropdown">
+                    <a href="#products-area" id="link-products"></a>
+                    <div class="dropdown-content" id="dropdown-categories">
+                        </div>
+                </li>
+                <li><a href="#contact" id="link-contact"></a></li>
+                <li class="lang-switcher">
+                    <a onclick="changeLanguage('ar')" id="btn-lang-ar">AR</a>
+                    <a onclick="changeLanguage('ku')" id="btn-lang-ku">KU</a>
+                    <a onclick="changeLanguage('en')" id="btn-lang-en">EN</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 id="hero-title"></h1>
+            <p id="hero-sub"></p>
+            <a href="#products-area" class="btn-primary" id="hero-btn-browse"></a>
+        </div>
+    </section>
+
+    <div class="container" id="products-area">
+        </div>
+
+    <section class="contact-section" id="contact">
+        <h2 class="contact-title" id="contact-title"></h2>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <i class="fa-solid fa-location-dot"></i>
+                <h4 id="label-address"></h4>
+                <p id="info-address" style="margin-top:8px; color:#aaa; font-size:14px;"></p>
+            </div>
+            <div class="contact-card">
+                <i class="fa-solid fa-phone"></i>
+                <h4 id="label-phone"></h4>
+                <p id="info-phone" style="margin-top:8px; color:#aaa; font-size:14px;"></p>
+            </div>
+            <div class="contact-card">
+                <i class="fa-solid fa-clock"></i>
+                <h4 id="label-hours"></h4>
+                <p id="info-hours" style="margin-top:8px; color:#aaa; font-size:14px;"></p>
+            </div>
+        </div>
+        <div style="margin-top: 40px;">
+            <a href="#" class="btn-order" id="btn-whatsapp-contact" target="_blank">
+                <i class="fa-brands fa-whatsapp"></i> <span id="text-whatsapp-btn"></span>
+            </a>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <p id="footer-text"></p>
+    </footer>
+
+    <script>
+        const companyInfo = {
+            "phone": "07717100200",
+            "location_ar": "النجف الأشرف - شارع الحزام الاخضر جهة العدالة  - مقابيل سنتر جبل عامل",
+            "location_ku": "نەجەفی ئەشرەف - شەقامی پشتوێنی سەوز، لای عەدالە - بەرامبەر سەنتەری جەبەل عامیل",
+            "location_en": "Najaf Al-Ashraf - Green Belt Street, Justice side - opposite Jabal Amel Center",
+        };
+
+        const multilingualData = {
+            "ar": {
+                "title": "SAMA AL-LUALUA AL-THAHBIA",
+                "home": "الرئيسية",
+                "products": "أقسام الديكور والمواد",
+                "contact": "اتصل بنا",
+                "hero_title": "أرقى مواد الديكور المعماري الحديث",
+                "hero_sub": "شركة سما اللؤلؤة الذهبية يوفر لكم أحدث صيحات الديكور الداخلي والخارجي بأعلى جودة في العراق.",
+                "btn_browse": "تصفح الأقسام والمنتجات",
+                "btn_order": "اطلب أو استفسر عبر الواتساب",
+                "contact_title": "معلومات الاتصال والزيارة",
+                "address_label": "موقع المكتب",
+                "phone_label": "رقم الهاتف الفعلي",
+                "hours_label": "أوقات العمل",
+                "hours_val": "أهلاً وسهلاً بكم في جميع الأوقات",
+                "footer_text": "شركة سما اللؤلؤة الذهبية - الفخامة والتميز في عالم الديكور الحديث",
+                "all_categories": "كل الأقسام",
+                "show_more": "عرض المزيد",
+                "show_less": "عرض أقل",
+                "sections": [
+                    {
+                        "id": "waterfalls",
+                        "title": "الشلالات الداخلية والنافورات",
+                        "items": [
+                            {
+                                "name": "شلال جداري مودرن - إضاءة ذكية",
+                                "features": "استمع إلى هدير الماء مع شلالات اللؤلؤة الذهبية للديكور شلال داخلي من مادة الفايبر گلاس عالي الكثافة الأبعاد الارتفاع 175 سم  العرض 68 سم",
+                                "placeholder": "static/images/water1.jpg",
+                                "note": "سهلة التركيب"
+                            },
+                            {
+                                "name": "شلال جداري مودرن - إضاءة ذكية",
+                                "features": "استمع إلى هدير الماء مع شلالات اللؤلؤة الذهبية للديكور شلال داخلي من مادة الفايبر گلاس عالي الكثافة الأبعاد الارتفاع 150 سم  العرض 50 سم",
+                                "placeholder": "static/images/water2.jpg",
+                                "note": "سهلة التركيب"
+                            },
+                            {
+                                "name": "شلال جداري مودرن - إضاءة ذكية",
+                                "features": "استمع إلى هدير الماء مع شلالات اللؤلؤة الذهبية للديكور شلال داخلي من مادة الفايبر گلاس عالي الكثافة الأبعاد الارتفاع 90 سم  العرض 68 سم",
+                                "placeholder": "static/images/water3.jpg",
+                                "note": "سهلة التركيب"
+                            },
+                            {
+                                "name": "شلال جداري مودرن - إضاءة ذكية",
+                                "features": "استمع إلى هدير الماء مع شلالات اللؤلؤة الذهبية للديكور شلال داخلي من مادة الفايبر گلاس عالي الكثافة الأبعاد الارتفاع 95 سم  العرض 40 سم",
+                                "placeholder": "static/images/water4.jpg",
+                                "note": "سهلة التركيب"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "marble-wood",
+                        "title": "قسم مواد الديكور",
+                        "items": [
+                            {
+                                "name": "بديل الخشب",
+                                "features": "حشوه الابواب الخارجيه المقاومه للمياه والحريق والعفن والبكتيريا اسعار مميزه للجمله والمفرد",
+                                "placeholder": "static/images/water5.jpg",
+                                "note": "اضغط لمعاينة النقشات الـ 6",
+                                "images": [
+                                    "static/images/water5.jpg",
+                                    "static/images/water6.jpg",
+                                    "static/images/water7.jpg",
+                                    "static/images/water8.jpg",
+                                    "static/images/water9.jpg",
+                                    "static/images/water10.jpg"
+                                ]
+                            },
+                            {
+                                "name": "مواد الواجهات العازله للبروده والحراره",
+                                "features": "تتميز بالجوده العاليه ومواصفات تلائم الاجواء العراقيه اسعار مميزه احصل على خصم 25% الان من كل قوائم الجمله",
+                                "placeholder": "static/images/water11.jpg",
+                                "note": "اضغط لمعاينة النقشات الـ 3",
+                                "images": [
+                                    "static/images/water11.jpg",
+                                    "static/images/water12.jpg",
+                                    "static/images/water13.jpg"
+                                ]
+                            },
+                            {
+                                "name": "بديل خشب",
+                                "features": "اكثر من 50 موديل تناسب كافه الاذواق اسعار مميزه وجوده عاليه جدا",
+                                "placeholder": "static/images/water14.jpg",
+                                "note": "اضغط لمعاينة النقشات الـ 3",
+                                "images": [
+                                    "static/images/water14.jpg",
+                                    "static/images/water15.jpg",
+                                    "static/images/water16.jpg"
+                                ]
+                            },
+                            {
+                                "name": "بديل رخام",
+                                "features": "بديل رخام الوان وتشكيله جديده",
+                                "placeholder": "static/images/water17.jpg",
+                                "note": "اضغط لمعاينة النقشات الـ 3",
+                                "images": [
+                                    "static/images/water17.jpg",
+                                    "static/images/water18.jpg",
+                                    "static/images/water19.jpg"
+                                ]
+                            },
+                            {
+                                "name": "ورق جدران فاخر",
+                                "features": "بديل رخام الوان وتشكيله جديده",
+                                "placeholder": "static/images/water20.jpg",
+                                "note": "اضغط لمعاينة النقشات",
+                                "images": [
+                                    "static/images/water20.jpg"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "id": "wallpaper",
+                        "title": "قسم مواد البناء",
+                        "items": [
+                            {
+                                "name": "تحت شعار 'صنع في العراق' صناعة البروفايلات الخاصة بالجبسم بورد بأعلى معايير الجودة والدقة،",
+                                "features": "منتج وطني يواكب التطور ويخدم مشاريعكم باحترافية عالية، متانة، ثبات، وتشطيب مثالي يلبي متطلبات منفذي الديكور، اختيارك الأول للثقة والجودة.",
+                                "placeholder": "static/images/water21.jpg",
+                                "note": "اضغط لمعاينة",
+                                "images": [
+                                    "static/images/water21.jpg",
+                                    "static/images/water22.jpg",
+                                    "static/images/water23.jpg",
+                                    "static/images/water24.jpg",
+                                    "static/images/water25.jpg",
+                                    "static/images/water26.jpg",
+                                    "static/images/water27.jpg"
+                                ]
+                            },
+                            {
+                                "name": "الواح المتحدة",
+                                "features": "جوده وامان نتحدى بجودة منتوجنا الاسماء كثيرة قمتها اسم منتوجنا جمله ومفرد مستعدون لتجهيز كافه المشاريع وشركات الديكور اسعارنا مميزه",
+                                "placeholder": "static/images/water28.jpg",
+                                "note": "اضغط لمعاينة",
+                                "images": [
+                                    "static/images/water28.jpg",
+                                    "static/images/water29.jpg"
+                                ]
+                            },
+                            {
+                                "name": "الواح البورد اكس الخارجية",
+                                "features": "مقاومة للماء والرطوبة مقاومة للحريق",
+                                "placeholder": "static/images/water30.jpg",
+                                "note": "اضغط لمعاينة",
+                                "images": [
+                                    "static/images/water30.jpg",
+                                    "static/images/water31.jpg"
+                                ]
+                            },
+                            {
+                                "name": "رافعة ألواح جبسية",
+                                "features": "تسهل اعمالك سهولة العمل بها تزيد من سرعة الإنجاز ماذا تنتظر",
+                                "placeholder": "static/images/water32.jpg",
+                                "note": "اضغط لمعاينة",
+                                "images": [
+                                    "static/images/water32.jpg",
+                                    "static/images/water33.jpg"
+                                ]
+                            },
+                            {
+                                "name": "صوف صخري من شركة كناوف الألمانية",
+                                "features": "مادة التصنيع: يُصنع من صخور البازلت الطبيعية المعاد صهرها. الموصلية الحرارية: منخفضة جدًا بحدود 0.034 – 0.040 W/m·K مقاومة النار: غير قابل للاشتعال (تصنيف A1). يتحمل درجات حرارة تصل إلى1000°C قدرة عالية على امتصاص الصوت مقاوم للرطوبة والعفن والفطريات",
+                                "placeholder": "static/images/water34.jpg",
+                                "note": "اضغط لمعاينة",
+                                "images": [
+                                    "static/images/water34.jpg",
+                                    "static/images/water35.jpg",
+                                    "static/images/water36.jpg"
+                                ]
+                            },
+                            {
+                                "name": "ساتين طلية نهائية",
+                                "features": "من ماركة KNAUF الألمانية صنع في تركيا",
+                                "placeholder": "static/images/water37.jpg",
+                                "note": "اضغط لمعاينة",
+                                "images": [
+                                    "static/images/water37.jpg"
+                                ]
+                            },
+                            {
+                                "name": "معجون ابيضّ ناعم مقاوم للماء",
+                                "features": "للاستعمال الخارجي من شركة جدار",
+                                "placeholder": "static/images/water38.jpg",
+                                "note": "اضغط لمعاينة",
+                                "images": [
+                                    "static/images/water38.jpg"
+                                ]
+                            },
+                            {
+                                "name": "ورق ذهب",
+                                "features": "إيطالي جودة عالية",
+                                "placeholder": "static/images/water39.jpg",
+                                "note": "اضغط لمعاينة",
+                                "images": [
+                                    "static/images/water39.jpg"
+                                ]
+                            },
+                            {
+                                "name": "تيب جوين نوع ABA",
+                                "features": "استيراد خاص ذو مواصفات عالمية عالية الجودة العرض 5 سم الطول 90 متر ذو لاصق قوي جداً",
+                                "placeholder": "static/images/water40.jpg",
+                                "note": "اضغط لمعاينة",
+                                "images": [
+                                    "static/images/water40.jpg"
+                                ]
+                            },
+                            {
+                                "name": "تيب جوين نوع متحدة سعودي",
+                                "features": "العرض 5 سم الطول 90 متر ذو لاصق قوي جداً",
+                                "placeholder": "static/images/water41.jpg",
+                                "note": "اضغط لمعاينة",
+                                "images": [
+                                    "static/images/water41.jpg"
+                                ]
+                            },
+                            {
+                                "name": "گبان ليزري من BOSCH",
+                                "features": "أربع خطوط المدى 50 متر",
+                                "placeholder": "static/images/water42.jpg",
+                                "note": "اضغط لمعاينة",
+                                "images": [
+                                    "static/images/water42.jpg",
+                                    "static/images/water43.jpg",
+                                    "static/images/water44.jpg"
+                                ]
+                            },
+                            {
+                                "name": "گبان ليزري ماركة DEWALT ليزر احمر",
+                                "features": "ذو مدى طويل يصل إلى 50 متر",
+                                "placeholder": "static/images/water45.jpg",
+                                "note": "اضغط لمعاينة",
+                                "images": [
+                                    "static/images/water45.jpg",
+                                    "static/images/water46.jpg"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "ku": {
+                "title": "SAMA AL-LUALUA AL-THAHBIA",
+                "home": "سەرەکی",
+                "products": "بەشەکانی دیکۆر و کەرەستەکان",
+                "contact": "پەیوەندیمان پێوە بکە",
+                "hero_title": "ناوازەترین کەرەستەکانی دیکۆری تەلارسازی هاوچەرخ",
+                "hero_sub": "کۆمپانیای سەما اللؤلؤة الذهبية نوێترین مۆدێلەکانی دیکۆری ناوخۆیی و دەرەکی بە بەرزترین کوالیتی لە عێراق بۆ دابین دەکات.",
+                "btn_browse": "گەڕان لە بەشەکان و بەرهەمەکان",
+                "btn_order": "داواکردن یان پرسیارکردن لەڕێگەی واتسئەپەوە",
+                "contact_title": "زانیاری پەیوەندی و سەردانکردن",
+                "address_label": "شوێنی نووسینگە",
+                "phone_label": "ژمارەی تەلەفۆنی ڕاستەقینە",
+                "hours_label": "کاتەکانی کارکردن",
+                "hours_val": "بەخێرهاتنتان دەکەین لە هەموو کاتێکدا",
+                "footer_text": "کۆمپانیای سەما اللؤلؤة الذهبية - ڕازاوەیی و ناوازەیی لە جیهانی دیکۆری هاوچەرخدا",
+                "all_categories": "هەموو بەشەکان",
+                "show_more": "بینینی زیاتر",
+                "show_less": "بینینی کەمتر",
+                "sections": [
+                    {
+                        "id": "waterfalls",
+                        "title": "شەلالەکانی ناوخۆ و نافورەکان",
+                        "items": [
+                            {
+                                "name": "شەلالی دیواری مۆدێرن - ڕووناکی زیرەک",
+                                "features": "گوێ لە خوڕەی ئاو بگرە لەگەڵ شەلالەکانی مرواری زێڕین بۆ دیکۆر، شەلالی ناوخۆیی لە ماددەی فایبەرگلاسی چڕی بەرز، ڕەهەندەکان: بەرزی ١٧٥ سم، پانی ٦٨ سم",
+                                "placeholder": "static/images/water1.jpg",
+                                "note": "ئاسانە بۆ بەستن"
+                            },
+                            {
+                                "name": "شەلالی دیواری مۆدێرن - ڕووناکی زیرەک",
+                                "features": "گوێ لە خوڕەی ئاو بگرە لەگەڵ شەلالەکانی مرواری زێڕین بۆ دیکۆر، شەلالی ناوخۆیی لە ماددەی فایبەرگلاسی چڕی بەرز، ڕەهەندەکان: بەرزی ١٥٠ سم، پانی ٥٠ سم",
+                                "placeholder": "static/images/water2.jpg",
+                                "note": "ئاسانە بۆ بەستن"
+                            },
+                            {
+                                "name": "شەلالی دیواری مۆدێرن - ڕووناکی زیرەک",
+                                "features": "گوێ لە خوڕەی ئاو بگرە لەگەڵ شەلالەکانی مرواری زێڕین بۆ دیکۆر، شەلالی ناوخۆیی لە ماددەی فایبەرگلاسی چڕی بەرز، ڕەهەندەکان: بەرزی ٩٠ سم، پانی ٦٨ سم",
+                                "placeholder": "static/images/water3.jpg",
+                                "note": "ئاسانە بۆ بەستن"
+                            },
+                            {
+                                "name": "شەلالی دیواری مۆدێرن - ڕووناکی زیرەک",
+                                "features": "گوێ لە خوڕەی ئاو بگرە لەگەڵ شەلالەکانی مرواری زێڕین بۆ دیکۆر، شەلالی ناوخۆیی لە ماددەی فایبەرگلاسی چڕی بەرز، ڕەهەندەکان: بەرزی ٩٥ سم، پانی ٤٠ سم",
+                                "placeholder": "static/images/water4.jpg",
+                                "note": "ئاسانە بۆ بەستن"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "marble-wood",
+                        "title": "بەشی کەرەستەکانی دیکۆر",
+                        "items": [
+                            {
+                                "name": "جێگری دار",
+                                "features": "پڕکەرەوەی دەرگا دەرەکییەکان، دژە ئاو، دژە ئاگر، دژە قەوزە و بەکتریا، نرخێکی تایبەت بۆ کۆمەڵ و تاک",
+                                "placeholder": "static/images/water5.jpg",
+                                "note": "کلیک بکە بۆ بینینی ٦ نەخشەکە",
+                                "images": [
+                                    "static/images/water5.jpg",
+                                    "static/images/water6.jpg",
+                                    "static/images/water7.jpg",
+                                    "static/images/water8.jpg",
+                                    "static/images/water9.jpg",
+                                    "static/images/water10.jpg"
+                                ]
+                            },
+                            {
+                                "name": "کەرەستەی دیواری ئیزۆلاسیۆنی سارد و گەرم",
+                                "features": "بە کوالیتیی بەرز و تایبەتمەندییەکانی گونجاو بۆ کەشوهەوای عێراق، نرخی تایبەت، ئێستا ٢٥٪ داشکاندن لە هەموو لیستی کۆمەڵەوە بەدەست بهێنە",
+                                "placeholder": "static/images/water11.jpg",
+                                "note": "کلیک بکە بۆ بینینی ٣ نەخشەکە",
+                                "images": [
+                                    "static/images/water11.jpg",
+                                    "static/images/water12.jpg",
+                                    "static/images/water13.jpg"
+                                ]
+                            },
+                            {
+                                "name": "جێگری دار",
+                                "features": "زیاتر لە ٥٠ مۆدێل کە گونجاوە بۆ هەموو تامەکان، نرخی تایبەت و کوالیتیی زۆر بەرز",
+                                "placeholder": "static/images/water14.jpg",
+                                "note": "کلیک بکە بۆ بینینی ٣ نەخشەکە",
+                                "images": [
+                                    "static/images/water14.jpg",
+                                    "static/images/water15.jpg",
+                                    "static/images/water16.jpg"
+                                ]
+                            },
+                            {
+                                "name": "جێگری مەرمەر",
+                                "features": "جێگری مەرمەر بە ڕەنگ و شێوەی نوێ",
+                                "placeholder": "static/images/water17.jpg",
+                                "note": "کلیک بکە بۆ بینینی ٣ نەخشەکە",
+                                "images": [
+                                    "static/images/water17.jpg",
+                                    "static/images/water18.jpg",
+                                    "static/images/water19.jpg"
+                                ]
+                            },
+                            {
+                                "name": "کاغەزی دیواری لوکس",
+                                "features": "جێگری مەرمەر بە ڕەنگ و شێوەی نوێ",
+                                "placeholder": "static/images/water20.jpg",
+                                "note": "کلیک بکە بۆ بینینی نەخشەکان",
+                                "images": [
+                                    "static/images/water20.jpg"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "id": "wallpaper",
+                        "title": "بەشی کەرەستەکانی بیناسازی",
+                        "items": [
+                            {
+                                "name": "بە دروشمی 'دروستکراوی عێراق' دروستکردنی پڕۆفایلەکانی جیبسم بۆرد بە بەرزترین پێوەرەکانی کوالیتی و وردی،",
+                                "features": "بەرهەمێکی نیشتمانی کە هاوکاتە لەگەڵ پێشکەوتن و خزمەت بە پرۆژەکانتان دەکات بە پیشەیییەکی بەرز، بەهێزی، جێگیری، و تەواوکارییەکی نموونەیی کە پێداویستییەکانی جێبەجێکەرانی دیکۆر دابین دەکات، هەڵبژاردنی یەکەم بۆ متمانە و کوالیتی.",
+                                "placeholder": "static/images/water21.jpg",
+                                "note": "کلیک بکە بۆ بینین",
+                                "images": [
+                                    "static/images/water21.jpg",
+                                    "static/images/water22.jpg",
+                                    "static/images/water23.jpg",
+                                    "static/images/water24.jpg",
+                                    "static/images/water25.jpg",
+                                    "static/images/water26.jpg",
+                                    "static/images/water27.jpg"
+                                ]
+                            },
+                            {
+                                "name": "تەختەکانی یەکگرتوو",
+                                "features": "کوالیتی و ئاسایش، ئێمە بە کوالیتیی بەرهەمەکەمان دەنگۆ دەکەین، ناوەکان زۆرن، بەرزترینی ناوی بەرهەمەکەمانە، بە کۆمەڵ و تاک، ئامادەین بۆ دابینکردنی هەموو پرۆژەکان و کۆمپانیاکانی دیکۆر، نرخەکەمان تایبەتن.",
+                                "placeholder": "static/images/water28.jpg",
+                                "note": "کلیک بکە بۆ بینین",
+                                "images": [
+                                    "static/images/water28.jpg",
+                                    "static/images/water29.jpg"
+                                ]
+                            },
+                            {
+                                "name": "تەختەکانی بۆرد ئێکس دەرەکی",
+                                "features": "دژە ئاو و شێ، دژە ئاگر",
+                                "placeholder": "static/images/water30.jpg",
+                                "note": "کلیک بکە بۆ بینین",
+                                "images": [
+                                    "static/images/water30.jpg",
+                                    "static/images/water31.jpg"
+                                ]
+                            },
+                            {
+                                "name": "هەڵگرتەنی تەختەکانی گەچ",
+                                "features": "کاری تۆ ئاسان دەکات، ئاسانی کارکردن لەگەڵی، خێرایی جێبەجێکردن زیاد دەکات، چاوەڕوانی چی دەکەیت؟",
+                                "placeholder": "static/images/water32.jpg",
+                                "note": "کلیک بکە بۆ بینین",
+                                "images": [
+                                    "static/images/water32.jpg",
+                                    "static/images/water33.jpg"
+                                ]
+                            },
+                            {
+                                "name": "لووفی بەردیی لە کۆمپانیای KNAUF ئەڵمانی",
+                                "features": "ماددەی دروستکردن: لە بەردی بازەلتی سروشتییەوە دروست دەکرێت کە دووبارە توێ دەکرێتەوە. گەیاندنی گەرمی: زۆر نزم لە نێوان ٠.٠٣٤ – ٠.٠٤٠ وات/مەتر·کێلوین. بەرگری لە ئاگر: ناسوتێنرێت (پۆلێنی A1). بەرگەی پلەی گەرمی تا ١٠٠٠ پلەی سەدی دەگرێت. توانای بەرزی هەڵمژینی دەنگ. بەرگری لە شێ، قەوزە و کەڕوو.",
+                                "placeholder": "static/images/water34.jpg",
+                                "note": "کلیک بکە بۆ بینین",
+                                "images": [
+                                    "static/images/water34.jpg",
+                                    "static/images/water35.jpg",
+                                    "static/images/water36.jpg"
+                                ]
+                            },
+                            {
+                                "name": "ساتینی پۆلەشکردنی کۆتایی",
+                                "features": "لە مارکەی KNAUF ئەڵمانی، دروستکراوە لە تورکیا",
+                                "placeholder": "static/images/water37.jpg",
+                                "note": "کلیک بکە بۆ بینین",
+                                "images": [
+                                    "static/images/water37.jpg"
+                                ]
+                            },
+                            {
+                                "name": "سوچی سپیی نەرمی دژە ئاو",
+                                "features": "بۆ بەکارهێنانی دەرەکی لە کۆمپانیای جیدار",
+                                "placeholder": "static/images/water38.jpg",
+                                "note": "کلیک بکە بۆ بینین",
+                                "images": [
+                                    "static/images/water38.jpg"
+                                ]
+                            },
+                            {
+                                "name": "کاغەزی زێڕ",
+                                "features": "ئیتالی، کوالیتیی بەرز",
+                                "placeholder": "static/images/water39.jpg",
+                                "note": "کلیک بکە بۆ بینین",
+                                "images": [
+                                    "static/images/water39.jpg"
+                                ]
+                            },
+                            {
+                                "name": "تیپ جۆین جۆری ABA",
+                                "features": "هاوردەی تایبەت خاوەنی تایبەتمەندییەکی جیهانیی بەرز، پانی ٥ سم، درێژی ٩٠ مەتر، چەسپاوێکی زۆر بەهێز",
+                                "placeholder": "static/images/water40.jpg",
+                                "note": "کلیک بکە بۆ بینین",
+                                "images": [
+                                    "static/images/water40.jpg"
+                                ]
+                            },
+                            {
+                                "name": "تیپ جۆین جۆری یەکگرتووی سعودی",
+                                "features": "پانی ٥ سم، درێژی ٩٠ مەتر، چەسپاوێکی زۆر بەهێز",
+                                "placeholder": "static/images/water41.jpg",
+                                "note": "کلیک بکە بۆ بینین",
+                                "images": [
+                                    "static/images/water41.jpg"
+                                ]
+                            },
+                            {
+                                "name": "گپانی لێزەری لە BOSCH",
+                                "features": "چوار هێڵ، مەودا ٥٠ مەتر",
+                                "placeholder": "static/images/water42.jpg",
+                                "note": "کلیک بکە بۆ بینین",
+                                "images": [
+                                    "static/images/water42.jpg",
+                                    "static/images/water43.jpg",
+                                    "static/images/water44.jpg"
+                                ]
+                            },
+                            {
+                                "name": "گپانی لێزەری مارکەی DEWALT لێزەری سوور",
+                                "features": "مەودای درێژ تا ٥٠ مەتر",
+                                "placeholder": "static/images/water45.jpg",
+                                "note": "کلیک بکە بۆ بینین",
+                                "images": [
+                                    "static/images/water45.jpg",
+                                    "static/images/water46.jpg"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "en": {
+                "title": "SAMA AL-LUALUA AL-THAHBIA",
+                "home": "Home",
+                "products": "Decor Sections & Materials",
+                "contact": "Contact Us",
+                "hero_title": "The Finest Modern Architectural Decoration Materials",
+                "hero_sub": "Sama Al-Lualua Al-Thahbia Company provides you with the latest interior and exterior decoration trends with the highest quality in Iraq.",
+                "btn_browse": "Browse Sections & Products",
+                "btn_order": "Order or Inquire via WhatsApp",
+                "contact_title": "Contact & Visit Information",
+                "address_label": "Office Location",
+                "phone_label": "Actual Phone Number",
+                "hours_label": "Working Hours",
+                "hours_val": "Welcome at All Times",
+                "footer_text": "Sama Al-Lualua Al-Thahbia Company - Luxury and Excellence in the World of Modern Decoration",
+                "all_categories": "All Sections",
+                "show_more": "Show More",
+                "show_less": "Show Less",
+                "sections": [
+                    {
+                        "id": "waterfalls",
+                        "title": "Indoor Waterfalls & Fountains",
+                        "items": [
+                            {
+                                "name": "Modern Wall Waterfall - Smart Lighting",
+                                "features": "Listen to the roar of water with Golden Pearl waterfalls for decor. Indoor waterfall made of high-density fiberglass. Dimensions: Height 175 cm, Width 68 cm.",
+                                "placeholder": "static/images/water1.jpg",
+                                "note": "Easy to install"
+                            },
+                            {
+                                "name": "Modern Wall Waterfall - Smart Lighting",
+                                "features": "Listen to the roar of water with Golden Pearl waterfalls for decor. Indoor waterfall made of high-density fiberglass. Dimensions: Height 150 cm, Width 50 cm.",
+                                "placeholder": "static/images/water2.jpg",
+                                "note": "Easy to install"
+                            },
+                            {
+                                "name": "Modern Wall Waterfall - Smart Lighting",
+                                "features": "Listen to the roar of water with Golden Pearl waterfalls for decor. Indoor waterfall made of high-density fiberglass. Dimensions: Height 90 cm, Width 68 cm.",
+                                "placeholder": "static/images/water3.jpg",
+                                "note": "Easy to install"
+                            },
+                            {
+                                "name": "Modern Wall Waterfall - Smart Lighting",
+                                "features": "Listen to the roar of water with Golden Pearl waterfalls for decor. Indoor waterfall made of high-density fiberglass. Dimensions: Height 95 cm, Width 40 cm.",
+                                "placeholder": "static/images/water4.jpg",
+                                "note": "Easy to install"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "marble-wood",
+                        "title": "Decor Materials Section",
+                        "items": [
+                            {
+                                "name": "Wood Alternative",
+                                "features": "Infill for exterior doors, resistant to water, fire, mold, and bacteria. Special prices for wholesale and retail.",
+                                "placeholder": "static/images/water5.jpg",
+                                "note": "Click to preview the 6 textures",
+                                "images": [
+                                    "static/images/water5.jpg",
+                                    "static/images/water6.jpg",
+                                    "static/images/water7.jpg",
+                                    "static/images/water8.jpg",
+                                    "static/images/water9.jpg",
+                                    "static/images/water10.jpg"
+                                ]
+                            },
+                            {
+                                "name": "Insulated Facade Materials (Heat & Cold)",
+                                "features": "Distinguished by high quality and specifications suitable for the Iraqi climate. Special prices — get 25% off all wholesale lists now.",
+                                "placeholder": "static/images/water11.jpg",
+                                "note": "Click to preview the 3 textures",
+                                "images": [
+                                    "static/images/water11.jpg",
+                                    "static/images/water12.jpg",
+                                    "static/images/water13.jpg"
+                                ]
+                            },
+                            {
+                                "name": "Wood Alternative",
+                                "features": "More than 50 models to suit all tastes, special prices and very high quality.",
+                                "placeholder": "static/images/water14.jpg",
+                                "note": "Click to preview the 3 textures",
+                                "images": [
+                                    "static/images/water14.jpg",
+                                    "static/images/water15.jpg",
+                                    "static/images/water16.jpg"
+                                ]
+                            },
+                            {
+                                "name": "Marble Alternative",
+                                "features": "Marble alternative with new colors and patterns.",
+                                "placeholder": "static/images/water17.jpg",
+                                "note": "Click to preview the 3 textures",
+                                "images": [
+                                    "static/images/water17.jpg",
+                                    "static/images/water18.jpg",
+                                    "static/images/water19.jpg"
+                                ]
+                            },
+                            {
+                                "name": "Luxury Wallpaper",
+                                "features": "Marble alternative with new colors and patterns.",
+                                "placeholder": "static/images/water20.jpg",
+                                "note": "Click to preview textures",
+                                "images": [
+                                    "static/images/water20.jpg"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "id": "wallpaper",
+                        "title": "Building Materials Section",
+                        "items": [
+                            {
+                                "name": "Under the slogan 'Made in Iraq' - manufacturing gypsum board profiles with the highest quality and precision standards,",
+                                "features": "A national product that keeps pace with development and serves your projects with high professionalism, durability, stability, and perfect finishing that meets the needs of decor executors. Your first choice for trust and quality.",
+                                "placeholder": "static/images/water21.jpg",
+                                "note": "Click to preview",
+                                "images": [
+                                    "static/images/water21.jpg",
+                                    "static/images/water22.jpg",
+                                    "static/images/water23.jpg",
+                                    "static/images/water24.jpg",
+                                    "static/images/water25.jpg",
+                                    "static/images/water26.jpg",
+                                    "static/images/water27.jpg"
+                                ]
+                            },
+                            {
+                                "name": "United Boards",
+                                "features": "Quality and safety, we challenge with the quality of our product. Many names, the highest is our product name. Wholesale and retail, ready to supply all projects and decor companies. Our prices are special.",
+                                "placeholder": "static/images/water28.jpg",
+                                "note": "Click to preview",
+                                "images": [
+                                    "static/images/water28.jpg",
+                                    "static/images/water29.jpg"
+                                ]
+                            },
+                            {
+                                "name": "Exterior Board X Sheets",
+                                "features": "Water and moisture resistant, fire resistant.",
+                                "placeholder": "static/images/water30.jpg",
+                                "note": "Click to preview",
+                                "images": [
+                                    "static/images/water30.jpg",
+                                    "static/images/water31.jpg"
+                                ]
+                            },
+                            {
+                                "name": "Gypsum Board Lift",
+                                "features": "Makes your work easier, easy to operate, increases speed of accomplishment. What are you waiting for?",
+                                "placeholder": "static/images/water32.jpg",
+                                "note": "Click to preview",
+                                "images": [
+                                    "static/images/water32.jpg",
+                                    "static/images/water33.jpg"
+                                ]
+                            },
+                            {
+                                "name": "Rock wool from Knauf Germany",
+                                "features": "Material: Made from natural basalt rocks re-melted. Thermal conductivity: very low at 0.034 – 0.040 W/m·K. Fire resistance: non-combustible (A1 rating). Withstands temperatures up to 1000°C. High sound absorption capacity. Resistant to moisture, mold, and fungi.",
+                                "placeholder": "static/images/water34.jpg",
+                                "note": "Click to preview",
+                                "images": [
+                                    "static/images/water34.jpg",
+                                    "static/images/water35.jpg",
+                                    "static/images/water36.jpg"
+                                ]
+                            },
+                            {
+                                "name": "Satin Finish Coating",
+                                "features": "From Knauf Germany, made in Turkey.",
+                                "placeholder": "static/images/water37.jpg",
+                                "note": "Click to preview",
+                                "images": [
+                                    "static/images/water37.jpg"
+                                ]
+                            },
+                            {
+                                "name": "Smooth White Waterproof Putty",
+                                "features": "For exterior use from Jidar Company.",
+                                "placeholder": "static/images/water38.jpg",
+                                "note": "Click to preview",
+                                "images": [
+                                    "static/images/water38.jpg"
+                                ]
+                            },
+                            {
+                                "name": "Gold Leaf",
+                                "features": "Italian, high quality.",
+                                "placeholder": "static/images/water39.jpg",
+                                "note": "Click to preview",
+                                "images": [
+                                    "static/images/water39.jpg"
+                                ]
+                            },
+                            {
+                                "name": "Tape Joint Type ABA",
+                                "features": "Special import with high global specifications, width 5 cm, length 90 m, very strong adhesive.",
+                                "placeholder": "static/images/water40.jpg",
+                                "note": "Click to preview",
+                                "images": [
+                                    "static/images/water40.jpg"
+                                ]
+                            },
+                            {
+                                "name": "Tape Joint Type United Saudi",
+                                "features": "Width 5 cm, length 90 m, very strong adhesive.",
+                                "placeholder": "static/images/water41.jpg",
+                                "note": "Click to preview",
+                                "images": [
+                                    "static/images/water41.jpg"
+                                ]
+                            },
+                            {
+                                "name": "Laser Level from BOSCH",
+                                "features": "Four lines, range 50 m.",
+                                "placeholder": "static/images/water42.jpg",
+                                "note": "Click to preview",
+                                "images": [
+                                    "static/images/water42.jpg",
+                                    "static/images/water43.jpg",
+                                    "static/images/water44.jpg"
+                                ]
+                            },
+                            {
+                                "name": "Laser Level DEWALT Red Laser",
+                                "features": "Long range up to 50 m.",
+                                "placeholder": "static/images/water45.jpg",
+                                "note": "Click to preview",
+                                "images": [
+                                    "static/images/water45.jpg",
+                                    "static/images/water46.jpg"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // دالة تبديل الصورة الرئيسية للمنتج عند النقر على الصور المصغرة (نقشات)
+        function changeProductImage(thumbElement, mainImgId) {
+            const mainImg = document.getElementById(mainImgId);
+            mainImg.src = thumbElement.src;
+            
+            // تحديث خط تحديد الإطار الذهبي النشط للصور المصغرة
+            const parent = thumbElement.parentElement;
+            const thumbs = parent.getElementsByClassName('thumb-img');
+            for(let t of thumbs) {
+                t.classList.remove('active-thumb');
+            }
+            thumbElement.classList.add('active-thumb');
+        }
+
+        // دالة التحكم في زر "عرض المزيد / عرض أقل" للمنتجات داخل الأقسام
+        function toggleSectionExpand(btn, gridId, lang) {
+            const grid = document.getElementById(gridId);
+            const isExpanded = grid.classList.toggle('expanded');
+            const labels = multilingualData[lang];
+            btn.innerHTML = isExpanded 
+                ? `${labels.show_less} <i class="fa-solid fa-chevron-up"></i>` 
+                : `${labels.show_more} <i class="fa-solid fa-chevron-down"></i>`;
+        }
+
+        // المحرك الرئيسي لتحديث نصوص ولغة الواجهة ديناميكياً
+        function changeLanguage(lang) {
+            const data = multilingualData[lang];
+            
+            // 1. تحديث اتجاه لغة الصفحة بالكامل (RTL للمد العربي والكردي و LTR للإنجليزي)
+            const htmlTag = document.getElementById('html-tag');
+            htmlTag.lang = lang;
+            htmlTag.dir = (lang === 'ar' || lang === 'ku') ? 'rtl' : 'ltr';
+
+            // 2. تحديث تلوين زر اللغة النشط بالـ Navbar
+            document.getElementById('btn-lang-ar').classList.remove('active-lang');
+            document.getElementById('btn-lang-ku').classList.remove('active-lang');
+            document.getElementById('btn-lang-en').classList.remove('active-lang');
+            document.getElementById(`btn-lang-${lang}`).classList.add('active-lang');
+
+            // 3. تحديث نصوص القوائم والنافبار والهيرو
+            document.getElementById('link-home').innerText = data.home;
+            document.getElementById('link-products').innerHTML = `${data.products} <i class="fa-solid fa-chevron-down" style="font-size:10px; margin-inline-start:4px;"></i>`;
+            document.getElementById('link-contact').innerText = data.contact;
+            
+            document.getElementById('hero-title').innerText = data.hero_title;
+            document.getElementById('hero-sub').innerText = data.hero_sub;
+            document.getElementById('hero-btn-browse').innerText = data.btn_browse;
+
+            // 4. تحديث قسم الاتصال والـ Footer والواتساب
+            document.getElementById('contact-title').innerText = data.contact_title;
+            document.getElementById('label-address').innerText = data.address_label;
+            document.getElementById('label-phone').innerText = data.phone_label;
+            document.getElementById('label-hours').innerText = data.hours_label;
+            
+            document.getElementById('info-address').innerText = companyInfo[`location_${lang}`];
+            document.getElementById('info-phone').innerText = companyInfo.phone;
+            document.getElementById('info-hours').innerText = data.hours_val;
+            
+            document.getElementById('text-whatsapp-btn').innerText = data.btn_order;
+            document.getElementById('btn-whatsapp-contact').href = `https://wa.me/${companyInfo.phone}`;
+            document.getElementById('footer-text').innerText = data.footer_text;
+
+            // 5. تحديث روابط القائمة المنسدلة (Dropdown Categories) بالنافبار
+            const dropdownMenu = document.getElementById('dropdown-categories');
+            dropdownMenu.innerHTML = '';
+            data.sections.forEach(sec => {
+                dropdownMenu.innerHTML += `<a href="#sec-${sec.id}">${sec.title}</a>`;
+            });
+
+            // 6. بناء وعرض الأقسام وبطاقات المنتجات ديناميكياً بالكامل
+            const productsArea = document.getElementById('products-area');
+            productsArea.innerHTML = ''; // تصفير المحتوى القديم لإعادة البناء باللغة الجديدة
+
+            data.sections.forEach((section, secIndex) => {
+                const gridId = `grid-${section.id}`;
+                
+                // إنشاء هيكل القسم الأساسي
+                let sectionHTML = `
+                    <section class="decor-section" id="sec-${section.id}">
+                        <h2 class="section-title">${section.title}</h2>
+                        <div class="products-grid" id="${gridId}">
+                `;
+
+                // إضافة بطاقات المنتجات داخل القسم الحالي
+                section.items.forEach((item, itemIndex) => {
+                    const mainImgId = `img-${secIndex}-${itemIndex}`;
+                    
+                    // توليد كود شريط الصور المصغرة (النقشات) إذا كانت متوفرة في كودك
+                    let thumbnailsHTML = '';
+                    if (item.images && item.images.length > 1) {
+                        thumbnailsHTML = `<div class="thumbnails-grid">`;
+                        item.images.forEach((imgUrl, thumbIndex) => {
+                            const activeClass = (thumbIndex === 0) ? 'active-thumb' : '';
+                            thumbnailsHTML += `
+                                <img src="${imgUrl}" 
+                                     class="thumb-img ${activeClass}" 
+                                     onclick="changeProductImage(this, '${mainImgId}')" 
+                                     alt="نقشة">
+                            `;
+                        });
+                        thumbnailsHTML += `</div>`;
+                    }
+
+                    // توليد البنية البرمجية لبطاقة المنتج كاملة
+                    sectionHTML += `
+                        <div class="product-card">
+                            <div class="image-box">
+                                <img src="${item.placeholder}" id="${mainImgId}" class="main-product-img" alt="${item.name}">
+                                ${thumbnailsHTML}
+                            </div>
+                            <div class="card-details">
+                                <h3>${item.name}</h3>
+                                <p>${item.features}</p>
+                                ${item.note ? `<span class="product-note">${item.note}</span>` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                sectionHTML += `</div>`; // إغلاق شبكة المنتجات (products-grid)
+
+                // إضافة زر "عرض المزيد" فقط إذا كانت المنتجات داخل القسم أكثر من 4
+                if (section.items.length > 4) {
+                    sectionHTML += `
+                        <div class="show-more-box">
+                            <button class="btn-show-more" onclick="toggleSectionExpand(this, '${gridId}', '${lang}')">
+                                ${data.show_more} <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                        </div>
+                    `;
+                }
+
+                sectionHTML += `</section>`; // إغلاق قسم الديكور بالكامل
+                productsArea.insertAdjacentHTML('beforeend', sectionHTML);
+            });
+        }
+
+        // تشغيل اللغة العربية تلقائياً كخيار افتراضي عند تحميل الموقع لأول مرة
+        document.addEventListener("DOMContentLoaded", () => {
+            changeLanguage('ar');
+        });
+    </script>
+</body>
+</html>
